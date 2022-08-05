@@ -1,4 +1,4 @@
-# Top Destinations
+# My Top Destinations
 
 Top destinations is an app that displays five of some of the top destinations suggestions from kiwi.com.
 The user sees five top destinations cards in a list. He can learn more about a destination by tapping on the button "More about this" in the corresponding card, or change the destination with another by clicking "I don't like it"(not yet implemented). When user taps on "More about this" the card expands with the extra info being displayed under the "country" text .
