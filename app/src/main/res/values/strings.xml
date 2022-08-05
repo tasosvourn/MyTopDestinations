@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MyTopDestinations</string>
+    <string name="content_description_media">Destination_image</string>
+    <string name="item_destination_card_title">ExampleDestination</string>
+    <string name="item_destination_card_secondary_text">ExampleSecondaryText</string>
+    <string name="item_destination_card_supporting_text">ExampleSupportingText</string>
+    <string name="item_destination_card_left_button">action_1</string>
+    <string name="item_destination_card_right_button">action_2</string>
+    <string name="more_about_this">more about this</string>
+    <string name="i_dont_like_it">i don\'t like it</string>
 </resources>

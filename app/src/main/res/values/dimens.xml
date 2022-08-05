@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="top_destinations_view_title_topMArgin">24dp</dimen>
+    <dimen name="generic_layout_marginHoritzontal">16dp</dimen>
+</resources>
