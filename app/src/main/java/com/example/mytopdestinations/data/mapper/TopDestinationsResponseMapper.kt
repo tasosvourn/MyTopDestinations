@@ -11,7 +11,8 @@ fun TopDestinationsResponse.mapToDomain(): TopDestinationsDomainModel {
         locations = locations?.map { it.mapToDomain() } as MutableList<LocationsDomainModel>?,
         meta = meta?.mapToDomain(),
         lastRefresh = lastRefresh ?: 0,
-        resultsRetrieved = resultsRetrieved ?: 0
+        resultsRetrieved = resultsRetrieved ?: 0,
+        disliked = false
     )
 }
 
@@ -44,7 +45,9 @@ fun Locations.mapToDomain(): LocationsDomainModel {
         alternativeDeparturePoints = alternativeDeparturePoints?.map { it.mapToDomain() },
         providers = providers ?: mutableListOf(),
         carRentals = carRentals?.map { it.mapToDomain() },
-        type = type ?: ""
+        type = type ?: "",
+        imageURL = id?.let { getImageUrl(it) } ?: "",
+        supportingText = getSupportingText(alternativeNames, rank, country?.name, continent!!.name)
     )
 }
 
@@ -138,4 +141,28 @@ fun CarRentals.mapToDomain() : CarRentalsDomainModel {
         providerId = providerId ?: 0,
         providersLocations = providersLocations ?: mutableListOf()
     )
+}
+
+private fun getImageUrl(name: String): String {
+    return "https://images.kiwi.com/photos/600x330/$name.jpg"
+}
+
+
+fun getSupportingText(
+    alternativeNames: List<String>? = mutableListOf(),
+    rank: Int? = 0,
+    country: String? = "",
+    continent: String? = "",
+): String {
+    var supportText = String()
+    supportText += "Country: $country\n" +
+            "Continent:$continent\n" +
+            "Kiwi rank:$rank\n" +
+            "Alternative names:"
+    if (alternativeNames != null) {
+        for (name in alternativeNames) {
+            supportText += "${name}\n"
+        }
+    }
+    return supportText
 }

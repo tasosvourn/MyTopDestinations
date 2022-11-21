@@ -28,6 +28,8 @@ data class LocationsDomainModel(
     val alternativeDeparturePoints: List<AlternativeDeparturePointsDomainModel>?,
     val providers: List<Int>,
     val carRentals: List<CarRentalsDomainModel>?,
-    val type: String
+    val type: String,
+    val imageURL : String,
+    val supportingText: String
 )
 

@@ -3,8 +3,10 @@ package com.example.mytopdestinations.presentation.features.topdestinations
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.viewModelScope
-import com.example.mytopdestinations.data.model.request.FetchTopDestinationsQuery
+import com.example.mytopdestinations.R
+import com.example.mytopdestinations.data.mapper.getSupportingText
 import com.example.mytopdestinations.domain.model.DomainResult
+import com.example.mytopdestinations.domain.model.common.LocationsDomainModel
 import com.example.mytopdestinations.domain.usecase.GetTopDestinationsUseCase
 import com.example.mytopdestinations.presentation.common.LceStateViewModel
 import com.example.mytopdestinations.presentation.common.adapterdelegates.RowUiItem
@@ -21,7 +23,7 @@ class TopDestinationsViewModel @Inject constructor(
     private val getTopDestinationsUseCase: GetTopDestinationsUseCase
 ) : LceStateViewModel() {
 
-    private val list = mutableListOf<RowUiItem>()
+    private val list = mutableListOf<ItemDestinationCardUiItem>()
     private val _items = MutableStateFlow(emptyList<RowUiItem>())
     val items = _items.asStateFlow()
 
@@ -36,17 +38,7 @@ class TopDestinationsViewModel @Inject constructor(
     }
 
     private suspend fun makeTopDestinationsCall() {
-        when (val result = getTopDestinationsUseCase(
-            FetchTopDestinationsQuery(
-                term = "london_gb",
-                locale = "en-US",
-                limit = 10,
-                sort = "name",
-                activeOnly = "true",
-                sourcePopularity = "bookings",
-                fallbackPopularity = "searches"
-            )
-        ).first()) {
+        when (val result = getTopDestinationsUseCase().first()) {
             is DomainResult.Error -> Log.d(
                 "TopDestinationsAPICall",
                 "Error buildTopDestinationsItem $result"
@@ -56,9 +48,18 @@ class TopDestinationsViewModel @Inject constructor(
         }
     }
 
-    private fun loadTopFiveDestinations(locations: MutableList<ItemDestinationCardUiItem>) {
-        locations.forEachIndexed { _, location ->
-            list.add(location)
+    private fun loadTopFiveDestinations(locations: MutableList<LocationsDomainModel>) {
+        locations.take(5).forEachIndexed { _, location ->
+            list.add(
+                ItemDestinationCardUiItem(
+                    imageUrl = location.imageURL,
+                    title = location.name,
+                    secondaryText = location.country!!.name,
+                    supportingText = location.supportingText,
+                    leftButtonText = R.string.more_about_this,
+                    rightButtonText = R.string.i_dont_like_it
+                )
+            )
             _items.value = list.toList()
         }
     }
@@ -69,15 +70,17 @@ class TopDestinationsViewModel @Inject constructor(
         }
 
         override fun onRightButtonClicked() {
-            TODO("Not yet implemented." +
-                    "Replace the selected destination with another from the list")
+            TODO(
+                "Not yet implemented." +
+                        "Replace the selected destination with another from the list"
+            )
         }
     }
 
     private fun showExtraInfo(name: String) {
         list.forEachIndexed { _, item ->
-            when(item) {
-                is ItemDestinationCardUiItem -> item.supportingTextVisibility = View.VISIBLE
+            if (item.title == name) {
+                item.supportingTextVisibility = View.VISIBLE
             }
         }
     }

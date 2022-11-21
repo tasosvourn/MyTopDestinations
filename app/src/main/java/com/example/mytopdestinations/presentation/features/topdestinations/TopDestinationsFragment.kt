@@ -38,6 +38,5 @@ class TopDestinationsFragment : BaseFragment(R.layout.fragment_top_destinations)
 
     private fun updateDestinationsList(list: List<RowUiItem>) {
         topDestinationsListAdapter.items = list
-        topDestinationsListAdapter.notifyDataSetChanged()
     }
 }

@@ -8,5 +8,6 @@ data class TopDestinationsDomainModel(
     val locations: MutableList<LocationsDomainModel>?,
     val meta: MetaDomainModel?,
     val lastRefresh: Int,
-    val resultsRetrieved: Int
+    val resultsRetrieved: Int,
+    val disliked: Boolean
 )
