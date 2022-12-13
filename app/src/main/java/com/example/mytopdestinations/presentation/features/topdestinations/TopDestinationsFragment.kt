@@ -36,7 +36,9 @@ class TopDestinationsFragment : BaseFragment(R.layout.fragment_top_destinations)
         viewModel.items.collect(this) { list -> updateDestinationsList(list) }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateDestinationsList(list: List<RowUiItem>) {
         topDestinationsListAdapter.items = list
+        topDestinationsListAdapter.notifyDataSetChanged()
     }
 }
